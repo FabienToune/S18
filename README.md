@@ -6,8 +6,8 @@ Cet atelier porte sur la **persistance** d'un catalogue de livres : sérialisati
 JSON et reconstruction polymorphe. Vous complétez les fichiers squelette fournis,
 puis vous rendez votre travail au moyen d'une *Pull Request*.
 
-L'énoncé complet (six exercices, critères de réussite) figure dans le PDF de
-l'atelier distribué séparément. Ce dépôt en est le support de travail et de rendu.
+L'énoncé complet (six exercices, critères de vérification) figure dans le PDF de
+l'atelier. Ce dépôt en est le support de travail et de rendu.
 
 ---
 
