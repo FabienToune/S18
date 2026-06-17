@@ -16,8 +16,6 @@ figurent dans l'énoncé du TP, qui en est l'unique référence.
 
 Programmation Orientée Objet - EICPN 2025-2026.
 """
-
-
 class Livre:
     """Représente un livre du catalogue de la bibliothèque.
 
@@ -127,14 +125,14 @@ class Livre:
         return cls(titre, auteur, isbn, int(nb_pages_txt), int(annee_txt))
 
     # ----- Sérialisation JSON : À IMPLÉMENTER --------------------------
-
+    
     def to_dict(self):
         """Sérialise le livre en dictionnaire compatible JSON.
 
         Returns:
             dict: Données du livre, incluant un discriminateur de type.
         """
-        raise NotImplementedError("À implémenter - voir l'énoncé du TP.")
+        return {"type": "Livre", "titre": self._titre, "auteur": self._auteur, "isbn": self._isbn, "nb_pages": self._nb_pages, "annee": self._annee, "disponible": self._disponible,}
 
     @classmethod
     def from_dict(cls, donnees):
@@ -143,7 +141,10 @@ class Livre:
         Returns:
             Livre: Un livre équivalent à celui qui a été sérialisé.
         """
-        raise NotImplementedError("À implémenter - voir l'énoncé du TP.")
+        livre = cls((donnees["titre"]), donnees["auteur"], donnees["isbn"], donnees["nb_pages"], donnees["annee"])
+        if donnees["disponible"] is False: 
+            livre.emprunter()
+        return livre
 
     # ----- Méthodes métier (fournies) ---------------------------------
 
@@ -234,12 +235,18 @@ class LivreNumerique(Livre):
 
     def to_dict(self):
         """Enrichit le dictionnaire parent avec le format de fichier."""
-        raise NotImplementedError("À implémenter - voir l'énoncé du TP.")
-
+        donnees = super().to_dict()
+        donnees["type"] = "LivreNumerique"
+        donnees["format_fichier"] = self.format_fichier
+        return donnees
+    
     @classmethod
     def from_dict(cls, donnees):
         """Reconstruit un LivreNumerique à partir d'un dictionnaire."""
-        raise NotImplementedError("À implémenter - voir l'énoncé du TP.")
+        livre = cls((donnees["titre"]), donnees["auteur"], donnees["isbn"], donnees["nb_pages"], donnees["annee"], donnees["format_fichier"])
+        if donnees["disponible"] is False: 
+            livre.emprunter()
+        return livre
 
     def taille_estimee(self):
         """Retourne 'N pages [FORMAT]'."""
@@ -304,12 +311,18 @@ class LivreAudio(Livre):
 
     def to_dict(self):
         """Enrichit le dictionnaire parent avec la durée d'écoute."""
-        raise NotImplementedError("À implémenter - voir l'énoncé du TP.")
+        donnees = super().to_dict()
+        donnees["type"] = "LivreAudio"
+        donnees["duree_minutes"] = self.duree_minutes
+        return donnees
 
     @classmethod
     def from_dict(cls, donnees):
         """Reconstruit un LivreAudio à partir d'un dictionnaire."""
-        raise NotImplementedError("À implémenter - voir l'énoncé du TP.")
+        livre = cls((donnees["titre"]), donnees["auteur"], donnees["isbn"], donnees["nb_pages"], donnees["annee"], donnees["duree_minutes"])
+        if donnees["disponible"] is False: 
+            livre.emprunter()
+        return livre
 
     def taille_estimee(self):
         """Retourne 'Xh YYmin', ou 'YYmin' si moins d'une heure."""
@@ -329,3 +342,9 @@ class LivreAudio(Livre):
             f"nb_pages={self._nb_pages}, annee={self._annee}, "
             f"duree_minutes={self._duree_minutes})"
         )
+
+#import json    
+#livre = Livre("Fondation", "Asimov", "9782070360536", 256, 1951)
+#d = livre.to_dict()
+#print(Livre.from_dict(json.loads(json.dumps(d))) == livre)
+#print(type(d))

@@ -2,8 +2,8 @@
 POO - Soirée 18 : Persistance - Réponses écrites
 =====================================================================
 
-Nom    :
-Date   :
+Nom    : Bastin François
+Date   : 16/06/2026
 
 Complétez les sections ci-dessous. Référez-vous à l'énoncé du TP pour
 le détail de chaque question. Le code (tests, correction) va dans les
@@ -17,28 +17,29 @@ Pourquoi to_dict appelle-t-il super().to_dict() (enrichissement),
 alors que taille_estimee() de la S14 n'appelait pas super()
 (remplacement) ? Qu'est-ce qui distingue les deux situations ?
 
->>>
-
-
+>>> Dans notre cas actuelle, la majorité du dictionnaire que l'on veut
+créer est exactement le même sauf la dernière clé. Par contre, pour 
+taille_estimee(), l'entièreté est différente, on ne reprend rien de la
+classe parente.
 
 ---------------------------------------------------------------------
 Exercice 4 - Question AA3 (principe ouvert/fermé)
 ---------------------------------------------------------------------
 1. Énoncez le principe ouvert/fermé.
 
->>>
+>>> On peut ajouter d'autre classes dans le dictionnaire mais sans modifier le code interne.
 
 
 2. En quoi la cascade if/elif le violait-elle, et en quoi le registre
    le respecte-t-il ?
 
->>>
+>>>Le problème de la cascade est qu'on est obliger de modifier la fonction.
 
 
 3. Que faudrait-il modifier, dans chaque version, pour ajouter demain
    un type LivreBraille ?
 
->>>
+>>>Il suffit d'ajouter LivreBraille dans le dictionnaire de la fabrique.
 
 
 
@@ -51,7 +52,9 @@ moins trois arguments distincts (lisibilité du format ; couplage à la
 définition des classes ; sécurité au chargement d'une source non
 fiable).
 
->>>
+>>>Le format binaire est illisible. On ne peut pas renommer une classe sous 
+risque de rendre un ancien fichier illisible. Le fichier peut exécuter du 
+code, ce qui peut etre extremement dangereux si on ne connait la provenance.
 
 
 
@@ -60,13 +63,14 @@ Exercice 6 - Diagnostic
 ---------------------------------------------------------------------
 1. Symptôme observé (sans l'expliquer) :
 
->>>
+>>>Le type est toujours catalogue même quand c'est un livre audio ou numérique.
 
 
 2. Cause (ce que charger_catalogue fait de la donnée présente dans le
    fichier mais ignorée à la relecture) :
 
->>>
+>>>elle ne lit pas la première clé du disctionnaire mais recrée à chaque fois un
+un objet de la classe Livre.
 
 
 (Le test garde-fou et la correction de charger_catalogue vont dans les

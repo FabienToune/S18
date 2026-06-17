@@ -22,8 +22,9 @@ Programmation Orientée Objet - EICPN 2025-2026.
 
 import json
 
-from livre_s18_squelette import Livre
+from livre_s18_squelette import Livre, LivreAudio, LivreNumerique
 
+_FABRIQUES = {"Livre": Livre, "LivreNumerique": LivreNumerique, "LivreAudio": LivreAudio}
 
 # Représentation JSON d'un catalogue sauvegardé précédemment.
 _CATALOGUE_JSON = """[
@@ -71,17 +72,19 @@ def charger_catalogue(contenu_json):
     donnees = json.loads(contenu_json)
     livres = []
     for entree in donnees:
-        livre = Livre(
-            entree["titre"],
-            entree["auteur"],
-            entree["isbn"],
-            entree["nb_pages"],
-            entree["annee"],
-        )
-        livres.append(livre)
+      type_livre = entree["type"]
+      livre = _FABRIQUES[type_livre].from_dict(entree)  
+      livres.append(livre)
     return livres
 
 
 if __name__ == "__main__":
     for livre in charger_catalogue(_CATALOGUE_JSON):
         print(f"{type(livre).__name__:<15} {livre.taille_estimee()}")
+
+try: 
+  assert type(charger_catalogue(_CATALOGUE_JSON)[1]) == LivreNumerique
+except AssertionError:
+  print("bug")
+else:
+  print("ok")
