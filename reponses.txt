@@ -2,7 +2,7 @@
 POO - Soirée 18 : Persistance - Réponses écrites
 =====================================================================
 
-Nom    :
+Nom    : Bhuiyan Fardin
 Date   :
 
 Complétez les sections ci-dessous. Référez-vous à l'énoncé du TP pour
@@ -18,6 +18,13 @@ alors que taille_estimee() de la S14 n'appelait pas super()
 (remplacement) ? Qu'est-ce qui distingue les deux situations ?
 
 >>>
+Dans to_dict il respecte le principe DRY. il rend explicite que la sous-classe prolonge le parent au lieu de le
+réécrire. Au lieu de reecrire to_dict nous avont récuperer le dictionaire que to_dict nous renvoie et ajouter un autre élément : format_fichier.
+
+Dans taille_estimee de la soirée S14 il y a le taille_estimee du LivreNumerique qui pouvais utilisé l'enrichissement, ce qui est meme preferable.
+Mais dans le cas de taille_estimee du liveAudo le remplacement est total et inévitable. une chaine "96 pages" ne se concatène pas naturellement avec une durée
+"96 pages 2h 15min"
+
 
 
 
@@ -26,19 +33,24 @@ Exercice 4 - Question AA3 (principe ouvert/fermé)
 ---------------------------------------------------------------------
 1. Énoncez le principe ouvert/fermé.
 
->>>
+>>> 
+Nous pouvons ajouter d'autes types de livre dans le registre (Ouvert l'extension) sans changer la fonction livre_depuis_dict 
+pour ajouter ces nouveaux types.(Fermée à la modification)
 
 
 2. En quoi la cascade if/elif le violait-elle, et en quoi le registre
-   le respecte-t-il ?
+   le respecte-t-il ? 
 
 >>>
+la cascade if/elif ne respecte pas la partie fermé à la modification. 
 
 
 3. Que faudrait-il modifier, dans chaque version, pour ajouter demain
    un type LivreBraille ?
+   
 
 >>>
+Ajouter une ligne "LivreBraille : LivreBraille dans _FABRIQUES suffit. 
 
 
 
@@ -51,7 +63,11 @@ moins trois arguments distincts (lisibilité du format ; couplage à la
 définition des classes ; sécurité au chargement d'une source non
 fiable).
 
->>>
+>>> Je retiens le format JSON car:
+- pickle est illisible et non éditable à la main.
+- changer le nom d'une classe peut rendre les ancien fichier illisible.
+- au chargement d'une source non fiable risque exécuter du code arbitraire. 
+
 
 
 
@@ -61,12 +77,21 @@ Exercice 6 - Diagnostic
 1. Symptôme observé (sans l'expliquer) :
 
 >>>
+voici ce qu'affiche l'output :
+Livre           328 pages
+Livre           96 pages
+Livre           159 pages
+
+tout les livre affiché sont que des livres or _CATALOGUE_JSON contient un livre, un livre numerique et un livre audio. Suite a quoi il manque également des champs
+
 
 
 2. Cause (ce que charger_catalogue fait de la donnée présente dans le
    fichier mais ignorée à la relecture) :
 
 >>>
+durent la relecture, uniquement la méthode taille_estimee de la classe livre est appélée car on ne prend pas en considération le type.
+
 
 
 (Le test garde-fou et la correction de charger_catalogue vont dans les

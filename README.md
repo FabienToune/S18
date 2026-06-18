@@ -1,5 +1,7 @@
 # POO — Soirée 18 : Persistance
 
+Fardin Bhuiyan
+
 Atelier de Programmation Orientée Objet
 
 Cet atelier porte sur la **persistance** d'un catalogue de livres : sérialisation
