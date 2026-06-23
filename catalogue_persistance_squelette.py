@@ -18,25 +18,24 @@ from livre_s18_squelette import Livre, LivreNumerique, LivreAudio
 
 
 # Registre discriminateur "type" -> classe. À COMPLÉTER (voir l'énoncé).
-_FABRIQUES = {}
+
 
 
 def livre_depuis_dict(donnees):
-    """Reconstruit le bon sous-type de livre à partir d'un dictionnaire.
+    type_livre=donnees.get("type")
+    
+    if type_livre == "Livre":
+        return Livre.from_dict(donnees)
 
-    Lit le champ "type", choisit la classe associée dans le registre,
-    et délègue à sa classmethod from_dict().
+    elif type_livre == "LivreNumerique":
+        return LivreNumerique.from_dict(donnees)
 
-    Args:
-        donnees (dict): Dictionnaire produit par une méthode to_dict().
+    elif type_livre == "LivreAudio":
+        return LivreAudio.from_dict(donnees)
 
-    Returns:
-        Livre: Une instance du sous-type exact décrit par "type".
-
-    Raises:
-        ValueError: Si le champ "type" est absent ou inconnu du registre.
-    """
-    raise NotImplementedError("À implémenter - voir l'énoncé du TP.")
+    else:
+        raise ValueError(f"Type de livre inconnu : {type_livre}")
+   
 
 
 def sauvegarder_catalogue_json(livres, chemin):
@@ -46,7 +45,10 @@ def sauvegarder_catalogue_json(livres, chemin):
         livres (list[Livre]): Catalogue, éventuellement hétérogène.
         chemin (str): Chemin du fichier de destination.
     """
-    raise NotImplementedError("À implémenter - voir l'énoncé du TP.")
+    
+    donnees=[livre.to_dict() for livre in livres]
+    with open(chemin,"w",encoding="utf-8") as fichier:
+        json.dump(donnees,fichier,ensure_ascii=False,indent=2)
 
 
 def charger_catalogue_json(chemin):
@@ -58,4 +60,7 @@ def charger_catalogue_json(chemin):
     Returns:
         list[Livre]: Le catalogue reconstruit.
     """
-    raise NotImplementedError("À implémenter - voir l'énoncé du TP.")
+    with open(chemin,"r",encoding="utf-8")as fichier:
+       
+       donnees=json.load(fichier)
+    return  [livre_depuis_dict(entree) for entree in donnees]

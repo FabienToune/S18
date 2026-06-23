@@ -134,7 +134,15 @@ class Livre:
         Returns:
             dict: Données du livre, incluant un discriminateur de type.
         """
-        raise NotImplementedError("À implémenter - voir l'énoncé du TP.")
+        return{"type":"Livre","titre":self._titre ,
+        "auteur":self._auteur,
+        "isbn":self._isbn,
+        "nb_pages":self._nb_pages,
+        "annee":self._annee,
+        "disponible":self._disponible
+               
+               
+               }
 
     @classmethod
     def from_dict(cls, donnees):
@@ -143,7 +151,17 @@ class Livre:
         Returns:
             Livre: Un livre équivalent à celui qui a été sérialisé.
         """
-        raise NotImplementedError("À implémenter - voir l'énoncé du TP.")
+        livre=cls(donnees["titre"],donnees["auteur"],donnees["isbn"],donnees["nb_pages"], donnees["annee"])
+        
+        
+        
+        if donnees.get("disponible",True):
+        
+           livre.emprunter()
+           
+        return livre
+        
+        
 
     # ----- Méthodes métier (fournies) ---------------------------------
 
@@ -234,7 +252,10 @@ class LivreNumerique(Livre):
 
     def to_dict(self):
         """Enrichit le dictionnaire parent avec le format de fichier."""
-        raise NotImplementedError("À implémenter - voir l'énoncé du TP.")
+        donnees=super().to_dict()
+        donnees["type"]="LivreNumerique"
+        donnees["format_fichier"]=self._format_fichier
+        return donnees
 
     @classmethod
     def from_dict(cls, donnees):
@@ -303,8 +324,11 @@ class LivreAudio(Livre):
     # ----- Sérialisation JSON : À IMPLÉMENTER --------------------------
 
     def to_dict(self):
-        """Enrichit le dictionnaire parent avec la durée d'écoute."""
-        raise NotImplementedError("À implémenter - voir l'énoncé du TP.")
+        """Enrichit le dictionnaire parent avec la durée d'écoute."""        
+        donnees=super().to_dict()
+        donnees["type"]="LivreAudio"
+        donnees["duree_minutes"]=self._format_fichier
+        return donnees
 
     @classmethod
     def from_dict(cls, donnees):
