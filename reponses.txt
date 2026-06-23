@@ -66,8 +66,13 @@ moins trois arguments distincts (lisibilité du format ; couplage à la
 définition des classes ; sécurité au chargement d'une source non
 fiable).
 
->>>
+>>>Premièrement, le JSON est un format texte lisible par un humain. 
+Il peut être ouvert et modifié facilement avec n'importe quel éditeur de texte, 
+contrairement à pickle qui produit des données binaires difficiles à comprendre.
 
+Deuxièmement, le JSON est faiblement couplé aux classes Python
+
+Troisièmement, le JSON est plus sûr lors du chargement de fichiers provenant d'une source non fiable
 
 
 ---------------------------------------------------------------------
